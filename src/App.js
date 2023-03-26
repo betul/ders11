@@ -1,36 +1,44 @@
-import { useState } from "react"
+import { useState } from "react";
 
 function App() {
-  const [arama, aramaGuncelle] = useState("")
+  const [searchQuery, setSearchQuery] = useState("");
+  const products = ["Kalem", "Silgi", "Defter", "Uç"];
 
-  const urunler = [
-    "Kalem",
-    "Silgi",
-    "Defter",
-    "Uç"
-  ]
+  const handleSearchQueryChange = (event) => setSearchQuery(event.target.value);
 
-  function aramaYap(olay) {
-    aramaGuncelle(olay.target.value)
-  }
-
-  const filtreliUrunler = urunler.filter((eleman) => eleman.includes(arama))
+  const filteredProducts = products.filter((product) =>
+    product.toLowerCase().includes(searchQuery.toLowerCase())
+  );
 
   return (
-    <>
-      <div className="container mt-5">
-        <div className="row">
-          <div className="col-md-4"> <input value={arama} type="text" onChange={aramaYap} /></div>
-        </div>
-
-        <div className="row">
-          <div className="col-md-4 pt-4">
-            {filtreliUrunler.map((eleman) => <p>{eleman}</p>)}
-          </div>
+    <div className="container mt-5">
+      <div className="row">
+        <div className="col-md-4">
+          <input
+            type="text"
+            value={searchQuery}
+            onChange={handleSearchQueryChange}
+            placeholder="Ürün ara"
+            className="form-control"
+          />
         </div>
       </div>
-    </>
-  )
+
+      <div className="row">
+        <div className="col-md-4 pt-4">
+          {filteredProducts.length > 0 ? (
+            <ul>
+              {filteredProducts.map((product) => (
+                <li key={product}>{product}</li>
+              ))}
+            </ul>
+          ) : (
+            <p>Bir sonuç bulunamadı.</p>
+          )}
+        </div>
+      </div>
+    </div>
+  );
 }
 
-export default App
+export default App;
