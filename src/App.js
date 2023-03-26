@@ -1,50 +1,35 @@
 import { useState } from "react"
-function App() {
-  const [inputs, inputsUpdate] = useState({})
 
-  function formUpdate(event) {
-    const name = event.target.name;
-    const value = event.target.value;
-    inputsUpdate(values => ({ ...values, [name]: value }))
+function App() {
+  const [arama, aramaGuncelle] = useState("")
+
+  const urunler = [
+    "Kalem",
+    "Silgi",
+    "Defter",
+    "Uç"
+  ]
+
+  function aramaYap(olay) {
+    aramaGuncelle(olay.target.value)
   }
 
-  function formSubmit(event) {
-    event.preventDefault()
-
-    if( inputs.age < 18 ) {
-        alert("age not suitable ")
-    } else {
-        event.target.submit()
-    }
-}
-
+  const filtreliUrunler = urunler.filter((eleman) => eleman.includes(arama))
 
   return (
-    <form className="col-md-4" onSubmit={formSubmit}>
-      <label className="mt-3 mx-3">Enter your name:
-        <input
-          className="form-control"
-          type="text"
-          name="name"
-          value={inputs.name || ""}
-          onChange={formUpdate}
-        />
-      </label>
+    <>
+      <div className="container mt-5">
+        <div className="row">
+          <div className="col-md-4"> <input value={arama} type="text" onChange={aramaYap} /></div>
+        </div>
 
-      <label className="mt-3 mx-3"> Enter your age:
-        <input
-          className="form-control"
-          type="number"
-          name="age"
-          value={inputs.age || ""}
-          onChange={formUpdate}
-        />
-      </label>
-
-      <div className="col-md-4">
-        <input className="btn btn-success" type="submit" />
-      </div> 
-   </form>
+        <div className="row">
+          <div className="col-md-4 pt-4">
+            {filtreliUrunler.map((eleman) => <p>{eleman}</p>)}
+          </div>
+        </div>
+      </div>
+    </>
   )
 }
 
